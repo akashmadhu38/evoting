@@ -22,14 +22,6 @@ App = {
     return App.initContract();
   },
 
-  checkAdmin: function(){
-    web3.eth.getCoinbase(function(err, account) {
-      if (err === null && account==0x9E7FbB632A46d4A959260Ec92afD71448B0557C6) {
-        alert("Ok")
-      }
-      })
-  },
-  
   initContract: function() {
     $.getJSON("Election.json", function(election) {
       // Instantiate a new truffle contract from the artifact
@@ -37,26 +29,18 @@ App = {
       // Connect provider to interact with contract
       App.contracts.Election.setProvider(App.web3Provider);
 
-      App.listenForEvents();
-
       return App.render();
     });
   },
 
-  // Listen for events emitted from the contract
-  listenForEvents: function() {
-    App.contracts.Election.deployed().then(function(instance) {
-      // Restart Chrome if you are unable to receive this event
-      // This is a known issue with Metamask
-      // https://github.com/MetaMask/metamask-extension/issues/2393
-      instance.votedEvent({}, {
-        fromBlock: 0,
-        toBlock: 'latest'
-      }).watch(function(error, event) {
-        console.log("event triggered", event)
-        // Reload when a new vote is recorded
-        App.render();
-      });
+  checkAdmin: function(){
+    web3.eth.getCoinbase(function(err, account) {
+      if (err === null && account==0x9E7FbB632A46d4A959260Ec92afD71448B0557C6) {
+        App.contracts.Election.deployed().then(function(instance) {
+          electionInstance = instance;
+          return electionInstance.add();
+        });
+       }
     });
   },
 
@@ -79,7 +63,7 @@ App = {
     // Load contract data
     App.contracts.Election.deployed().then(function(instance) {
       electionInstance = instance;
-      return electionInstance.candidateCount();
+      return electionInstance.candidatesCount();
     }).then(function(candidatesCount) {
       var candidatesResults = $("#candidatesResults");
       candidatesResults.empty();
@@ -92,10 +76,10 @@ App = {
           var id = candidate[0];
           var name = candidate[1];
           var voteCount = candidate[2];
-          var wardNum = candidate[3]
+          var wardNum = candidate[3];
 
           // Render candidate Result
-          var candidateTemplate = "<tr><th>" + id + "</th><td>" + name + "</td><td>" + voteCount + "</td><td>" + wardNum +"</td></tr>"
+          var candidateTemplate = "<tr><th>" + id + "</th><td>" + name + "</td><td>" + voteCount + "</td><td>" + wardNum + "</td></tr>"
           candidatesResults.append(candidateTemplate);
 
           // Render candidate ballot option
