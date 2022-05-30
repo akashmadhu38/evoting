@@ -29,6 +29,7 @@ App = {
       }
       })
   },
+  
   initContract: function() {
     $.getJSON("Election.json", function(election) {
       // Instantiate a new truffle contract from the artifact
@@ -91,10 +92,10 @@ App = {
           var id = candidate[0];
           var name = candidate[1];
           var voteCount = candidate[2];
-          var wardno = candidate[3]
+          var wardNum = candidate[3]
 
           // Render candidate Result
-          var candidateTemplate = "<tr><th>" + id + "</th><td>" + name + "</td><td>" + voteCount + "</td><td>" + wardno +"</td></tr>"
+          var candidateTemplate = "<tr><th>" + id + "</th><td>" + name + "</td><td>" + voteCount + "</td><td>" + wardNum +"</td></tr>"
           candidatesResults.append(candidateTemplate);
 
           // Render candidate ballot option
