@@ -33,16 +33,22 @@ App = {
     });
   },
 
-  checkAdmin: function(){
-    web3.eth.getCoinbase(function(err, account) {
-      if (err === null && account==0x9E7FbB632A46d4A959260Ec92afD71448B0557C6) {
-        App.contracts.Election.deployed().then(function(instance) {
-          electionInstance = instance;
-          return electionInstance.add();
+    // Listen for events emitted from the contract
+    listenForEvents: function() {
+      App.contracts.Election.deployed().then(function(instance) {
+        // Restart Chrome if you are unable to receive this event
+        // This is a known issue with Metamask
+        // https://github.com/MetaMask/metamask-extension/issues/2393
+        instance.votedEvent({}, {
+          fromBlock: 0,
+          toBlock: 'latest'
+        }).watch(function(error, event) {
+          console.log("event triggered", event)
+          // Reload when a new vote is recorded
+          App.render();
         });
-       }
-    });
-  },
+      });
+    },
 
   render: function() {
     var electionInstance;
@@ -91,12 +97,40 @@ App = {
     }).then(function(hasVoted) {
       // Do not allow a user to vote
       if(hasVoted) {
-        $('form').hide();
+        web3.eth.getCoinbase(function(err, account) {
+          if (err === null && account==0x9E7FbB632A46d4A959260Ec92afD71448B0557C6) {
+            $('#candidatesSelect').hide();
+            $('#selectID').hide();
+            $('#submit').hide();
+          }
+          else{
+            $('form').hide();
+          }
+        });
       }
       loader.hide();
       content.show();
     }).catch(function(error) {
       console.warn(error);
+    });
+  },
+
+  checkAdmin: function(){
+    var electionInstance;
+    web3.eth.getCoinbase(function(err, account) {
+      if (err === null && account == 0x9E7FbB632A46d4A959260Ec92afD71448B0557C6) {
+        App.contracts.Election.deployed().then(function(instance) {
+          electionInstance = instance;
+          alert("Admin")
+          return electionInstance.add();
+        }).then(function(x)
+        {window.location.href = x;}
+        )
+       }
+       else{
+         alert("Permission Denied")
+         return electionInstance.add();
+       }
     });
   },
 

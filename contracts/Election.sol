@@ -18,14 +18,18 @@ contract Election {
     // Store Candidates Count
     uint public candidatesCount;
 
+    // voted event
+    event votedEvent (
+        uint indexed _candidateId
+    );
+
     constructor() public {
         addCandidate("Candidate 1",22);
         addCandidate("Candidate 2",33);
     }
 
     function add() public view returns (string memory){
-
-        return("http://localhost:3000/addcandidate.html");
+        if(true){return("http://localhost:3000/addcandidate.html");}
     }
 
     function addCandidate (string memory _name, uint _ward) private {
@@ -45,5 +49,8 @@ contract Election {
 
         // update candidate vote Count
         candidates[_candidateId].voteCount ++;
+
+         // trigger voted event
+        emit votedEvent(_candidateId);
     }
 }
