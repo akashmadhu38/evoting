@@ -81,7 +81,7 @@
         <div class="sidebar-brand-icon rotate-n-15">
           <i class="fas fa-laugh-wink"></i>
         </div>
-        <div style="color:#0000008f" class="sidebar-brand-text mx-3">VoteChain <sup>2</sup></div>
+        <div style="color:#0000008f" class="sidebar-brand-text mx-3">Votechain <sup>2</sup></div>
       </a>
 
       <!-- Divider -->
@@ -106,7 +106,7 @@
       <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
           <i class="fas fa-fw fa-cog"></i>
-          <span onclick="location.href='../admin1.html'">Make Coupon</span>
+          <span onclick="location.href='../admin1.html'">Voter ID</span>
         </a>
       </li>
 
@@ -114,7 +114,7 @@
       <li class="nav-item">
         <a class="nav-link collapsed" href="" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
           <i class="fas fa-fw fa-wrench"></i>
-          <span onclick="location.href='../qrCodeMain.html'">Reedem Coupon</span>
+          <span onclick="location.href='../qrCodeMain.html'">Login</span>
         </a>
       </li>
 
@@ -297,7 +297,7 @@
             <!-- Nav Item - User Information -->
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Valerie Luna</span>
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small" id="user"></span>
                 <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
               </a>
               <!-- Dropdown - User Information -->
@@ -369,45 +369,34 @@
 
                 <div class="card-body">
                   <div class="chart-area">
-                    <input type="text" class="form-control form-control-user" id="Name" style="margin-bottom: 12px;" aria-describedby="emailHelp" placeholder="Name">
-                    <input type="text" class="form-control form-control-user" id="Id" style="margin-bottom: 12px;" disabled aria-describedby="emailHelp" placeholder="Id">
-                    <input type="text" class="form-control form-control-user" id="WardNo" style="margin-bottom: 12px;" aria-describedby="emailHelp" placeholder="Ward Number">
-                    <input type="text" class="form-control form-control-user" id="VoteCount" disabled style="margin-bottom: 12px;" aria-describedby="emailHelp" placeholder="0 Votes">
+                    <input type="tel" class="form-control form-control-user" id="Name" style="margin-bottom: 12px;" aria-describedby="emailHelp" placeholder="Candidate Name">
+                    <input type="tel" class="form-control form-control-user" disabled id="ID" style="margin-bottom: 12px;" aria-describedby="emailHelp" placeholder="ID">
+                    <input type="tel" class="form-control form-control-user" disabled id="VoteCount" style="margin-bottom: 12px;" aria-describedby="emailHelp" placeholder="Vote Count">
+                    <input type="tel" class="form-control form-control-user" id="WardNum" style="margin-bottom: 12px;" aria-describedby="emailHelp" placeholder="Ward Number">
                     
                     <textarea type="textarea" class="form-control form-control-user" id="prodLimit"  aria-describedby="emailHelp" placeholder="Description"></textarea>
                     <input type="button" value="Generate" style="margin-top: 10px;margin-left: 50%;" onclick="App.addCandidate()" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"/>
+                  <script>
+                    window.onload=function(){
+                      setTimeout(function(){App.OnLoad();},2000);
+                    }
+                  </script>
                   </div>
                 </div>
               </div>
             </div>
 
             <!-- Pie Chart -->
-            <div class="col-xl-7 col-lg-6">
-              <div class="card shadow mb-4">
+            
                 <!-- Card Header - Dropdown -->
                 
-                  </div>
-                  </div>
-                  <div class="mt-4 text-center small">
-                    <span class="mr-2">
-                      <i class="fas fa-circle text-primary"></i> Direct
-                    </span>
-                    <span class="mr-2">
-                      <i class="fas fa-circle text-success"></i> Social
-                    </span>
-                    <span class="mr-2">
-                      <i class="fas fa-circle text-info"></i> Referral
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+                <!-- Card Body -->
+                
+                  
 
           <!-- Content Row -->
           
 
-        </div>
         <!-- /.container-fluid -->
 
       </div>
