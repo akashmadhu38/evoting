@@ -61,6 +61,7 @@ App = {
     // Load account data
     web3.eth.getCoinbase(function (err, account) {
       if (err === null) {
+        alert(account);
         App.account = account;
         $("#accountAddress").html("Your Account: " + account);
       }
@@ -69,17 +70,22 @@ App = {
     //Render Voter Address at register
     urlVal = window.location.href;
     if (urlVal == "http://localhost:3000/register.html") {
-      web3.eth.getCoinbase(function (err, account) {
-        if (err === null) {
-          alert(account);
-          App.account = account;
-          $("#addrOfVoter").val(account);
-        }
-      });
+      window.ethereum.enable().then(function(){
+
+        web3.eth.getCoinbase(function (err, account) {
+          if (err === null) {
+            App.account = account;
+            $("#addrOfVoter").val(account);
+          }
+        });
+      
+      })
+
     }
 
     // Load contract data
     App.contracts.Election.deployed().then(function (instance) {
+      
       electionInstance = instance;
       return electionInstance.candidatesCount();
     }).then(function (candidatesCount) {
@@ -106,7 +112,7 @@ App = {
 
           //Render candidate Add Btton
           web3.eth.getCoinbase(function (err, account) {
-            if (err === null && account == 0x308A32f1Ab0428FdDa0e380FaBb5cC93A3E6590e) {
+            if (err === null && account == 0xBc8E4Ab9075B09e9aAA61024F8Bd244eBDa31c48) {
 
             }
             else {
@@ -120,7 +126,7 @@ App = {
       // Do not allow a user to vote
       if (hasVoted) {
         web3.eth.getCoinbase(function (err, account) {
-          if (err === null && account == 0x308A32f1Ab0428FdDa0e380FaBb5cC93A3E6590e) {
+          if (err === null && account == 0xBc8E4Ab9075B09e9aAA61024F8Bd244eBDa31c48) {
             $('#candidatesSelect').hide();
             $('#selectID').hide();
             $('#submit').hide();
@@ -141,38 +147,43 @@ App = {
     var electionInstance;
     web3.eth.getCoinbase(function (err, account) {
       addr1 = account.toString();
-      alert(addr1)
       web3.eth.sendTransaction(
         {
           from: addr1,
-          to: "0xcdab44ff4576EB957e515881f91C6C2A067ED662",
+          to: "0xbbdd536883dcF14629715d0Fa3950e5e964B7c5e",
           value: "5000000000000000000",
           data: "0xdf",
           gas: 21300
         }, function (err, transactionHash) {
           if (!err) {
-            App.contracts.Election.deployed().then(function (instance) {
-              electionInstance = instance;
-              alert("1");
-              x1 = $('#locOfRetailer').val();
-              x2 = $('#addrOfVoter').val();
-              x3 = $('#exampleLastName').val();
-              x4 = $('#exampleFirstName').val();
-              alert("ok")
-              return electionInstance.addVoter(x4+" "+x3,x2,x1);
-            }).then(function (x) {
-              alert(x)
-              window.location.href = x;
-            }).catch(function (err){
-              console.log(err)
-            })
+            alert("2")
+            web3.eth.getCoinbase(function (err, account) {
+              if (err === null) {
+                App.contracts.Election.deployed().then(function (instance) {
+                  electionInstance = instance;
+                  alert("1");
+                  x1 = parseInt($('#locOfRetailer').val());
+                  x2 = $('#addrOfVoter').val();
+                  x3 = $('#exampleLastName').val();
+                  x4 = $('#exampleFirstName').val();
+                  alert(typeof x1)
+                  return electionInstance.addVoter(x4+' '+x3,x1,x2);
+                }).then(function (x) {
+                  alert(x)
+                  window.location.href = x;
+                })
+              }
+            });
+          }
+          else {
+            alert(err)
           }
         });
     });
   },
 
 
-  
+
 
   OnLoad: function () {
     var electionInstance;
@@ -222,7 +233,7 @@ App = {
 
   voterCheck: function () {
     var electionInstance;
-    
+
     web3.eth.getCoinbase(function (err, account) {
       if (err === null) {
         App.contracts.Election.deployed().then(function (instance) {

@@ -1,7 +1,6 @@
 {
   "name": "pet-shop",
   "version": "1.0.0",
-  "description": "",
   "main": "truffle.js",
   "directories": {
     "test": "test"
@@ -14,5 +13,19 @@
   "license": "ISC",
   "devDependencies": {
     "lite-server": "^2.6.1"
-  }
+  },
+  "dependencies": {
+    "truffle-hdwallet-provider": "^1.0.17",
+    "web3": "^1.7.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/akashmadhu38/evoting.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/akashmadhu38/evoting/issues"
+  },
+  "homepage": "https://github.com/akashmadhu38/evoting#readme",
+  "description": ""
 }
